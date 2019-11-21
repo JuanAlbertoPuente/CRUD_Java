@@ -6,6 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.japa.apirest.entity.User;
 
@@ -22,6 +23,7 @@ public class UserDAOImpl implements UserDAO{
 		Query<User> theQuery = currentSession.createQuery("from User", User.class);
 		
 		List<User> users = theQuery.getResultList();
+		
 		
 		return users;
 
@@ -44,19 +46,27 @@ public class UserDAOImpl implements UserDAO{
 		
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
+	@Transactional
 	public void deleteById(int id) {
 		Session currentSession = entityManager.unwrap(Session.class);
 
-		@SuppressWarnings("unchecked")
+
 		Query<User> theQuery = currentSession.createQuery("delete from User where id=:idUser");
 		
 		theQuery.setParameter("idUser", id);
 		theQuery.executeUpdate();
 		
-		// TODO: FIX CONNECTION
 		
 	}
 
+	@Override
+	public void updateid(User user ) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		
+		currentSession.saveOrUpdate(user);	
+		
+	}
 	
 }

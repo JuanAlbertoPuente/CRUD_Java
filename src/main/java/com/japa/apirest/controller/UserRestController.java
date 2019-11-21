@@ -2,10 +2,12 @@ package com.japa.apirest.controller;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -46,8 +48,19 @@ public class UserRestController {
 	}
 	
 
-	@PostMapping("/users")
+	@PostMapping("/users/{userId}")
 	public User addUser(@RequestBody User user) {
+		user.setId(0);
+		
+
+		userService.save(user);
+		
+		return user;
+		
+	}
+	
+	@PatchMapping("/users/{userId}")
+	public User updateid(@RequestBody User user) {
 		user.setId(0);
 		
 
@@ -66,8 +79,8 @@ public class UserRestController {
 	}
 	
 
-	@DeleteMapping("users/{userId}")
-	public String deteteUser(@PathVariable int userId) {
+	@DeleteMapping("/users/{userId}")
+	public void deleteUser(@PathVariable int userId) {
 		
 		User user = userService.findById(userId);
 		
@@ -77,8 +90,7 @@ public class UserRestController {
 		
 		userService.deleteById(userId);
 		
-
-		return "Deleted user id - "+userId;
 	}
+
 	
 }
