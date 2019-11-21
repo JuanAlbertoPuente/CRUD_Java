@@ -54,6 +54,8 @@ public class UserDAOImpl implements UserDAO{
 		theQuery.setParameter("idUser", id);
 		theQuery.executeUpdate();
 		
+		// TODO: FIX CONNECTION
+		
 	}
 
 	
